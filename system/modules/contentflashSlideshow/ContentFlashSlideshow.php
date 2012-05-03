@@ -1,4 +1,5 @@
-<?php if (!defined('TL_ROOT')) die('You cannot access this file directly!');
+<?php
+if (!defined('TL_ROOT')) die('You cannot access this file directly!');
 
 /**
  * Contao Open Source CMS
@@ -39,16 +40,15 @@ class ContentFlashSlideshow extends Frontend
 
     public function addSlideShow($arrFlashVars, $objCeFlash)
     {
-        
-        $arrImages = deserialize($objCeFlash->fl_multiSRC);
 
+        $arrImages = deserialize($objCeFlash->fl_multiSRC);
         //add an image, if only one image was selected
         if (count($arrImages) == 1)
         {
             $objCeFlash->Template->useAltImg = true;
             $objCeFlash->Template->altImg = $arrImages[0];
         }
-        
+
         //add a slideshow, if more than one image was selected
         if (count($arrImages) > 1)
         {
@@ -57,22 +57,19 @@ class ContentFlashSlideshow extends Frontend
             $objFile = new File($arrImages[0]);
             $arrAttributes = array(
                 // ID of the slider container
-                'containerId' => 'ce_slider_'.$objCeFlash->id,
+                'containerId' => 'ce_slider_' . $objCeFlash->id,
                 'itemsDimension' => array($objFile->width, $objFile->height),
                 'templateDefault' => TRUE,
                 'autoSlideDefault' => TRUE,
                 'autoSlide' => 2000,
-                'itemsMargin' => array('top' => 0, 'right' =>0, 'bottom' => 0, 'left' => 0, 'unit' => 'px')
+                'itemsMargin' => array('top' => 0, 'right' => 0, 'bottom' => 0, 'left' => 0, 'unit' => 'px')
             );
-                        
+
             $objSlider = new slideItMoo($arrAttributes);
             $objCeFlash->Template->arrSlideShowImages = $arrImages;
             $objCeFlash->Template->slideShow = $objSlider->parse();
-            $objCeFlash->Template->containerId = 'ce_slider_'.$objCeFlash->id;
-            
-            
+            $objCeFlash->Template->containerId = 'ce_slider_' . $objCeFlash->id;
         }
-        
         
         return;
     }
